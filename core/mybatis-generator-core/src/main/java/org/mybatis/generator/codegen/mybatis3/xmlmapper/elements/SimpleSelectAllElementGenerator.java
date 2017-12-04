@@ -15,6 +15,8 @@
  */
 package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
 
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+
 import java.util.Iterator;
 
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -45,11 +47,14 @@ public class SimpleSelectAllElementGenerator extends
                 "id", introspectedTable.getSelectAllStatementId())); //$NON-NLS-1$
         answer.addAttribute(new Attribute("resultMap", //$NON-NLS-1$
                 introspectedTable.getBaseResultMapId()));
+        answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
+                "java.util.Map"));
 
         context.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
         sb.append("select "); //$NON-NLS-1$
+        /*
         Iterator<IntrospectedColumn> iter = introspectedTable.getAllColumns()
                 .iterator();
         while (iter.hasNext()) {
@@ -69,7 +74,20 @@ public class SimpleSelectAllElementGenerator extends
         if (sb.length() > 0) {
             answer.addElement(new TextElement(sb.toString()));
         }
-
+		*/
+        if (stringHasValue(introspectedTable
+                .getSelectByPrimaryKeyQueryId())) {
+            sb.append('\'');
+            sb.append(introspectedTable.getSelectByPrimaryKeyQueryId());
+            sb.append("' as QUERYID,"); //$NON-NLS-1$
+        }
+        answer.addElement(new TextElement(sb.toString()));
+        answer.addElement(getBaseColumnListElement());
+        if (introspectedTable.hasBLOBColumns()) {
+            answer.addElement(new TextElement(",")); //$NON-NLS-1$
+            answer.addElement(getBlobColumnListElement());
+        }
+        
         sb.setLength(0);
         sb.append("from "); //$NON-NLS-1$
         sb.append(introspectedTable

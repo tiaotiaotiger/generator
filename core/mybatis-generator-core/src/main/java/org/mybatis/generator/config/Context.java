@@ -51,6 +51,8 @@ import org.mybatis.generator.internal.db.DatabaseIntrospector;
 public class Context extends PropertyHolder {
 
     private String id;
+    
+    private JavaParamConfiguration javaParamConfiguration;
 
     private JDBCConnectionConfiguration jdbcConnectionConfiguration;
 
@@ -103,7 +105,15 @@ public class Context extends PropertyHolder {
         pluginConfigurations = new ArrayList<PluginConfiguration>();
     }
 
-    public void addTableConfiguration(TableConfiguration tc) {
+    public JavaParamConfiguration getJavaParamConfiguration() {
+		return javaParamConfiguration;
+	}
+
+	public void setJavaParamConfiguration(JavaParamConfiguration javaParamConfiguration) {
+		this.javaParamConfiguration = javaParamConfiguration;
+	}
+
+	public void addTableConfiguration(TableConfiguration tc) {
         tableConfigurations.add(tc);
     }
 

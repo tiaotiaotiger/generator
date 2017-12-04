@@ -34,6 +34,7 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByExampl
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertSelectiveMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectAllMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampleWithBLOBsMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampleWithoutBLOBsMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByPrimaryKeyMethodGenerator;
@@ -43,6 +44,7 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByExampl
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeySelectiveMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeyWithBLOBsMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeyWithoutBLOBsMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.annotated.AnnotatedSelectAllMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 
@@ -86,20 +88,21 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             interfaze.addImportedType(fqjt);
         }
 
-        addCountByExampleMethod(interfaze);
-        addDeleteByExampleMethod(interfaze);
-        addDeleteByPrimaryKeyMethod(interfaze);
-        addInsertMethod(interfaze);
-        addInsertSelectiveMethod(interfaze);
+        addSelectAllMethod(interfaze);
         addSelectByExampleWithBLOBsMethod(interfaze);
         addSelectByExampleWithoutBLOBsMethod(interfaze);
         addSelectByPrimaryKeyMethod(interfaze);
+        addCountByExampleMethod(interfaze);
+        addInsertMethod(interfaze);
+        addInsertSelectiveMethod(interfaze);
         addUpdateByExampleSelectiveMethod(interfaze);
         addUpdateByExampleWithBLOBsMethod(interfaze);
         addUpdateByExampleWithoutBLOBsMethod(interfaze);
-        addUpdateByPrimaryKeySelectiveMethod(interfaze);
         addUpdateByPrimaryKeyWithBLOBsMethod(interfaze);
         addUpdateByPrimaryKeyWithoutBLOBsMethod(interfaze);
+        addUpdateByPrimaryKeySelectiveMethod(interfaze);
+        addDeleteByExampleMethod(interfaze);
+        addDeleteByPrimaryKeyMethod(interfaze);
 
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
         if (context.getPlugins().clientGenerated(interfaze, null,
@@ -148,6 +151,13 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
             AbstractJavaMapperMethodGenerator methodGenerator = new InsertSelectiveMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
+    }
+    
+    protected void addSelectAllMethod(Interface interfaze) {
+    	if (introspectedTable.getRules().generateInsertSelective()) {
+    		AbstractJavaMapperMethodGenerator methodGenerator = new SelectAllMethodGenerator();
+    		initializeAndExecuteGenerator(methodGenerator, interfaze);
+    	}
     }
 
     protected void addSelectByExampleWithBLOBsMethod(Interface interfaze) {

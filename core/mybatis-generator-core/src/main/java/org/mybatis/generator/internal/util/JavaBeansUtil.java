@@ -128,7 +128,12 @@ public class JavaBeansUtil {
         }
 
         if (firstCharacterUppercase) {
-            sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        	String secondChar = String.valueOf(sb.charAt(1));
+        	if(secondChar.matches("[A-Z]")) {
+        		sb.delete(0, 1);
+        	}else {
+        		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        	}
         }
 
         return sb.toString();

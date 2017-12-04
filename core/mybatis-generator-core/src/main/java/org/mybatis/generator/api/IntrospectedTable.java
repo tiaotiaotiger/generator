@@ -525,22 +525,21 @@ public abstract class IntrospectedTable {
 
         setSqlMapFullyQualifiedRuntimeTableName(calculateSqlMapFullyQualifiedRuntimeTableName());
         setSqlMapAliasedFullyQualifiedRuntimeTableName(calculateSqlMapAliasedFullyQualifiedRuntimeTableName());
-
-        setCountByExampleStatementId("countByExample"); //$NON-NLS-1$
-        setDeleteByExampleStatementId("deleteByExample"); //$NON-NLS-1$
-        setDeleteByPrimaryKeyStatementId("deleteByPrimaryKey"); //$NON-NLS-1$
-        setInsertStatementId("insert"); //$NON-NLS-1$
-        setInsertSelectiveStatementId("insertSelective"); //$NON-NLS-1$
-        setSelectAllStatementId("selectAll"); //$NON-NLS-1$
+        setSelectAllStatementId("list"); //$NON-NLS-1$
         setSelectByExampleStatementId("selectByExample"); //$NON-NLS-1$
         setSelectByExampleWithBLOBsStatementId("selectByExampleWithBLOBs"); //$NON-NLS-1$
-        setSelectByPrimaryKeyStatementId("selectByPrimaryKey"); //$NON-NLS-1$
+        setSelectByPrimaryKeyStatementId("getById");//selectByPrimaryKey //$NON-NLS-1$
+        setCountByExampleStatementId("countByExample"); //$NON-NLS-1$
+        setInsertStatementId("save");//insert //$NON-NLS-1$
+        setInsertSelectiveStatementId("saveMultiple");//insertSelective //$NON-NLS-1$
         setUpdateByExampleStatementId("updateByExample"); //$NON-NLS-1$
         setUpdateByExampleSelectiveStatementId("updateByExampleSelective"); //$NON-NLS-1$
         setUpdateByExampleWithBLOBsStatementId("updateByExampleWithBLOBs"); //$NON-NLS-1$
-        setUpdateByPrimaryKeyStatementId("updateByPrimaryKey"); //$NON-NLS-1$
-        setUpdateByPrimaryKeySelectiveStatementId("updateByPrimaryKeySelective"); //$NON-NLS-1$
-        setUpdateByPrimaryKeyWithBLOBsStatementId("updateByPrimaryKeyWithBLOBs"); //$NON-NLS-1$
+        setUpdateByPrimaryKeyStatementId("update");//updateByPrimaryKey //$NON-NLS-1$
+        setUpdateByPrimaryKeySelectiveStatementId("updateMultiple");//updateByPrimaryKeySelective //$NON-NLS-1$
+        setUpdateByPrimaryKeyWithBLOBsStatementId("updateMultiple");//updateByPrimaryKeyWithBLOBs //$NON-NLS-1$
+        setDeleteByExampleStatementId("deleteByExample"); //$NON-NLS-1$
+        setDeleteByPrimaryKeyStatementId("delete");//deleteByPrimaryKey //$NON-NLS-1$
         setBaseResultMapId("BaseResultMap"); //$NON-NLS-1$
         setResultMapWithBLOBsId("ResultMapWithBLOBs"); //$NON-NLS-1$
         setExampleWhereClauseId("Example_Where_Clause"); //$NON-NLS-1$
@@ -832,7 +831,8 @@ public abstract class IntrospectedTable {
                 sb.append('.');
             }
             sb.append(fullyQualifiedTable.getDomainObjectName());
-            sb.append("Mapper"); //$NON-NLS-1$
+            //sb.append("Mapper"); //$NON-NLS-1$
+            sb.append(context.getJavaParamConfiguration().getMapperSuffix()); 
         }
         setMyBatis3JavaMapperType(sb.toString());
 
